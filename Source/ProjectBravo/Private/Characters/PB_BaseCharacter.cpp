@@ -16,6 +16,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameModes/PB_BaseGameMode.h"
 #include "Controllers/PB_BasePlayerController.h"
+#include "Kismet/KismetSystemLibrary.h"
 #include <Net/UnrealNetwork.h>
 
 APB_BaseCharacter::APB_BaseCharacter()
@@ -53,6 +54,7 @@ void APB_BaseCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
+	// TO DO check if this line even needed
 	DOREPLIFETIME(APB_BaseCharacter, HealthComponent);
 }
 

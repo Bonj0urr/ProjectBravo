@@ -26,7 +26,7 @@ void APB_BasePlayerController::Client_InitUI_Implementation()
 
 	if (APB_BaseHUD* ClientHUD = Cast<APB_BaseHUD>(this->GetHUD()))
 	{
-		UKismetSystemLibrary::PrintString(this, "InitHUD call manual");
+		UKismetSystemLibrary::PrintString(this, "Client_InitUI_Implementation call");
 		ClientHUD->InitHUD();
 	}
 }
