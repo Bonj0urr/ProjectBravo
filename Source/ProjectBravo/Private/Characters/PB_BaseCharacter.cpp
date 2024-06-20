@@ -13,6 +13,7 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "Engine/DamageEvents.h"
 #include "Components/PB_HealthComponent.h"
+#include "Components/PB_WeaponComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameModes/PB_BaseGameMode.h"
 #include "Controllers/PB_BasePlayerController.h"
@@ -48,14 +49,12 @@ APB_BaseCharacter::APB_BaseCharacter()
 	FollowCamera->bUsePawnControlRotation = false;
 
 	HealthComponent = CreateDefaultSubobject<UPB_HealthComponent>(TEXT("HealthComponent"));
+	WeaponComponent = CreateDefaultSubobject<UPB_WeaponComponent>(TEXT("WeaponComponent"));
 }
 
 void APB_BaseCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
-	// TO DO check if this line even needed
-	DOREPLIFETIME(APB_BaseCharacter, HealthComponent);
 }
 
 void APB_BaseCharacter::BeginPlay()
@@ -63,6 +62,7 @@ void APB_BaseCharacter::BeginPlay()
 	Super::BeginPlay();
 
 	AddReplicatedSubObject(HealthComponent);
+	AddReplicatedSubObject(WeaponComponent);
 }
 
 /* Occurs when new controller possesses this pawn (on server) */
@@ -115,6 +115,7 @@ void APB_BaseCharacter::Look(const FInputActionValue& Value)
 	}
 }
 
+/* Depricated shooting logic implementation
 void APB_BaseCharacter::Shoot(const FInputActionValue& Value)
 {
 	if (!Value.Get<bool>())
@@ -139,6 +140,7 @@ void APB_BaseCharacter::Server_Shoot_Implementation()
 		HitActor->TakeDamage(20.0f, FDamageEvent(), this->GetController(), this);
 	}
 }
+*/
 
 void APB_BaseCharacter::Multicast_Die_Implementation()
 {
@@ -205,7 +207,10 @@ void APB_BaseCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerI
 
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APB_BaseCharacter::Look);
 
-		EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this, &APB_BaseCharacter::Shoot);
+		if (WeaponComponent)
+		{
+			EnhancedInputComponent->BindAction(ShootAction, ETriggerEvent::Started, this->WeaponComponent.Get(), &UPB_WeaponComponent::ShootCurrentWeapon);
+		}
 	}
 
 }

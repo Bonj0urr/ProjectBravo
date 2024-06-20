@@ -6,21 +6,40 @@
 #include "GameFramework/Actor.h"
 #include "PB_BaseWeapon.generated.h"
 
+class UPB_WeaponDataAsset;
+class APB_BaseProjectile;
+
 UCLASS()
 class PROJECTBRAVO_API APB_BaseWeapon : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	APB_BaseWeapon();
 
+public:
+	void InitWeapon(UPB_WeaponDataAsset* WeaponData);
+
+	void Shoot();
+
+	void Reload();
+
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+protected:
+	UPROPERTY()
+    TObjectPtr<UStaticMeshComponent> WeaponMesh;
+
+	UPROPERTY()
+    TSubclassOf<APB_BaseProjectile> ProjectileClass;
+
+    float FireRate;
+
+    int32 ClipAmmoCount;
+
+    int32 ReserveAmmoCount;
 };

@@ -12,6 +12,7 @@ class UCameraComponent;
 class UInputMappingContext;
 class UInputAction;
 class UPB_HealthComponent;
+class UPB_WeaponComponent;
 class APB_BasePlayerController;
 
 UCLASS()
@@ -76,8 +77,11 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PB|Input", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UInputAction> ShootAction;
 
-	UPROPERTY(Replicated, EditAnywhere, BlueprintReadOnly, Category = "PB|Components", meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PB|Components", meta = (AllowPrivateAccess = "true"))
 	TObjectPtr<UPB_HealthComponent> HealthComponent;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "PB|Components", meta = (AllowPrivateAccess = "true"))
+	TObjectPtr<UPB_WeaponComponent> WeaponComponent;
 
 	UPROPERTY()
 	FTimerHandle RespawnDelayTimer;

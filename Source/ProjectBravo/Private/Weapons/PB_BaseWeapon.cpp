@@ -2,26 +2,47 @@
 
 
 #include "Weapons/PB_BaseWeapon.h"
+#include "DataAssets/PB_WeaponDataAsset.h"
 
-// Sets default values
 APB_BaseWeapon::APB_BaseWeapon()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
 }
 
-// Called when the game starts or when spawned
 void APB_BaseWeapon::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 }
 
-// Called every frame
 void APB_BaseWeapon::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
+
+void APB_BaseWeapon::InitWeapon(UPB_WeaponDataAsset* WeaponData)
+{
+	if (WeaponData)
+	{
+		WeaponMesh = WeaponData->WeaponMesh;
+		ProjectileClass = WeaponData->ProjectileClass;
+		FireRate = WeaponData->FireRate;
+		ClipAmmoCount = WeaponData->ClipAmmoCount;
+		ReserveAmmoCount = WeaponData->ReserveAmmoCount;
+	}
+}
+
+void APB_BaseWeapon::Shoot()
+{
+
+}
+
+void APB_BaseWeapon::Reload()
+{
+
+}
+
+
 
